@@ -1,0 +1,85 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.7.21'
+    id 'java'
+    id 'idea'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "com.google.guava:guava:${guavaVersion}"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+
+    implementation "systems.manifold:manifold-ext-rt:${manifoldVersion}"
+    implementation "systems.manifold:manifold-tuple-rt:${manifoldVersion}"
+    implementation "systems.manifold:manifold-collections:${manifoldVersion}"
+    implementation "systems.manifold:manifold-io:${manifoldVersion}"
+    implementation "systems.manifold:manifold-text:${manifoldVersion}"
+    implementation "systems.manifold:manifold-science:${manifoldVersion}"
+
+    compileOnly "systems.manifold:manifold-rt:${manifoldVersion}"
+
+    annotationProcessor group: 'systems.manifold', name: 'manifold-ext', version: manifoldVersion
+    testAnnotationProcessor group: 'systems.manifold', name: 'manifold-ext', version: manifoldVersion
+
+    annotationProcessor group: 'systems.manifold', name: 'manifold-tuple', version: manifoldVersion
+    testAnnotationProcessor group: 'systems.manifold', name: 'manifold-tuple', version: manifoldVersion
+
+    annotationProcessor "systems.manifold:manifold-strings:${manifoldVersion}"
+    testAnnotationProcessor "systems.manifold:manifold-strings:${manifoldVersion}"
+
+    annotationProcessor group: 'systems.manifold', name: 'manifold-exceptions', version: manifoldVersion
+    testAnnotationProcessor group: 'systems.manifold', name: 'manifold-exceptions', version: manifoldVersion
+
+    annotationProcessor group: 'systems.manifold', name: 'manifold-collections', version: manifoldVersion
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ['-Xplugin:Manifold']
+}
+
+tasks.register('setup-java-puzzle') {
+    doLast {
+        def packageName = ['ch', 'neukom', 'advent2022', 'day' + project.getProperty('puzzle')].join(File.separator)
+        def srcFolder = [sourceSets.main.java.srcDirs[0].canonicalPath, packageName].join(File.separator)
+        mkdir srcFolder
+        def resourcesFolder = [sourceSets.main.resources.srcDirs[0].canonicalPath, packageName].join(File.separator)
+        mkdir resourcesFolder
+        new File([resourcesFolder, 'input'].join(File.separator)).write('')
+
+        def puzzleTemplate = new File(['templates', 'Puzzle.java.template'].join(File.separator))
+                .newReader()
+                .readLines()
+                .join('\n')
+                .replace('packagename', packageName.replace(File.separator, '.'))
+        new File([srcFolder, 'Part1.java'].join(File.separator)).write(puzzleTemplate.replace('ClassName', 'Part1'))
+        new File([srcFolder, 'Part2.java'].join(File.separator)).write(puzzleTemplate.replace('ClassName', 'Part2'))
+    }
+}
+
+tasks.register('setup-kotlin-puzzle') {
+    doLast {
+        def packageName = ['ch', 'neukom', 'advent2022', 'day' + project.getProperty('puzzle')].join(File.separator)
+        def srcFolder = [sourceSets.main.kotlin.srcDirs[0].canonicalPath, packageName].join(File.separator)
+        mkdir srcFolder
+        def resourcesFolder = [sourceSets.main.resources.srcDirs[0].canonicalPath, packageName].join(File.separator)
+        mkdir resourcesFolder
+        new File([resourcesFolder, 'input'].join(File.separator)).write('')
+
+        def puzzleTemplate = new File(['templates', 'Puzzle.kt.template'].join(File.separator))
+                .newReader()
+                .readLines()
+                .join('\n')
+                .replace('packagename', packageName.replace(File.separator, '.'))
+        new File([srcFolder, 'Part1.kt'].join(File.separator)).write(puzzleTemplate.replace('ClassName', 'Part1'))
+        new File([srcFolder, 'Part2.kt'].join(File.separator)).write(puzzleTemplate.replace('ClassName', 'Part2'))
+    }
+}

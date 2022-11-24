@@ -1,0 +1,13 @@
+package packagename
+
+import ch.neukom.advent2022.util.InputResourceReader
+
+object ClassName
+
+fun main(args: Array<String>) {
+    InputResourceReader(ClassName.javaClass).use(::run)
+}
+
+private fun run(reader: InputResourceReader) {
+
+}
