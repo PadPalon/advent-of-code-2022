@@ -4,7 +4,7 @@ import ch.neukom.advent2022.util.InputResourceReader
 
 object ClassName
 
-fun main(args: Array<String>) {
+fun main() {
     InputResourceReader(ClassName.javaClass).use(::run)
 }
 
