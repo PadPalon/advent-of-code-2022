@@ -1,33 +1,21 @@
 package ch.neukom.advent2022.day6;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.function.Predicate;
-
 public class Util {
-    private Util() {}
+    private Util() {
+    }
 
     public static int findStart(String input, int startMarkerLength) {
-        int[] characters = input.codePoints().toArray();
-        Deque<Integer> buffer = new ArrayDeque<>(startMarkerLength);
-        int counter = 1;
-        for (int character : characters) {
-            if (buffer.size() >= startMarkerLength) {
-                buffer.pollLast();
+        int start = 0;
+        int end = start + startMarkerLength;
+        int max = input.length();
+        do {
+            String part = input.substring(start, end);
+            if (part.codePoints().distinct().count() == startMarkerLength) {
+                return end;
             }
-            buffer.push(character);
-            if (buffer.size() >= startMarkerLength) {
-                boolean allCharactersUnique = true;
-                for (Integer knownCharacter : buffer) {
-                    Predicate<Integer> predicate = i -> i.equals(knownCharacter);
-                    allCharactersUnique &= buffer.indexOfFirst(predicate) == buffer.indexOfLast(predicate);
-                }
-                if (allCharactersUnique) {
-                    return counter;
-                }
-            }
-            counter++;
-        }
+            start++;
+            end++;
+        } while (end < max);
         return -1;
     }
 }

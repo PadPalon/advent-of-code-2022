@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import ch.neukom.advent2022.util.InputResourceReader;
 
-import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.*;
 
 public class Part2 {
     public static final int START_MARKER_LENGTH = 14;
@@ -18,6 +18,6 @@ public class Part2 {
     private static void run(InputResourceReader reader) {
         String input = reader.readInput().collect(joining("\n"));
         int start = Util.findStart(input, START_MARKER_LENGTH);
-        System.out.println("The start is $start");
+        System.out.println("The $START_MARKER_LENGTH-character marker starts at $start");
     }
 }

@@ -1,9 +1,6 @@
 package ch.neukom.advent2022.day6;
 
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.function.Predicate;
 
 import ch.neukom.advent2022.util.InputResourceReader;
 
@@ -21,6 +18,6 @@ public class Part1 {
     private static void run(InputResourceReader reader) {
         String input = reader.readInput().collect(joining("\n"));
         int start = Util.findStart(input, START_MARKER_LENGTH);
-        System.out.println("The start is $start");
+        System.out.println("The $START_MARKER_LENGTH-character marker starts at $start");
     }
 }
