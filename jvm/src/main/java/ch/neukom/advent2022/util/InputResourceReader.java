@@ -4,12 +4,11 @@ import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.stream.Stream;
 
-import org.jetbrains.annotations.Nullable;
-
 public class InputResourceReader implements Closeable, AutoCloseable {
+    public static final String DEFAULT_FILE = "input";
+
     private final Class<?> clazz;
 
     private BufferedReader reader;
@@ -19,7 +18,7 @@ public class InputResourceReader implements Closeable, AutoCloseable {
     }
 
     public Stream<String> readInput() {
-        return readInput("input");
+        return readInput(DEFAULT_FILE);
     }
 
     public Stream<String> readInput(String filename) {
@@ -33,11 +32,19 @@ public class InputResourceReader implements Closeable, AutoCloseable {
     }
 
     public String getFirstLine() {
-        return readInput().findFirst().orElseThrow();
+        return getFirstLine(DEFAULT_FILE);
+    }
+
+    public String getFirstLine(String filename) {
+        return readInput(filename).findFirst().orElseThrow();
     }
 
     public long getLineCount() {
-        return readInput().count();
+        return getLineCount(DEFAULT_FILE);
+    }
+
+    public long getLineCount(String filename) {
+        return readInput(filename).count();
     }
 
     private void openReader(String filename) {
