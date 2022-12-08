@@ -18,15 +18,7 @@ public class Part1 {
         int height = (int) reader.getLineCount();
         int width = reader.getFirstLine().length();
 
-        int[][] grid = new int[width][height];
-        reader.readInput()
-            .mapWithIndex((line, y) ->
-                line.codePoints()
-                    .mapToObj(c -> (char) c)
-                    .mapWithIndex((character, x) -> (x, y, character))
-            )
-            .flatMap(i -> i)
-            .forEach(tuple -> grid[(int) tuple.x][(int) tuple.y] = tuple.character);
+        int[][] grid = Util.loadGrid(reader.readInput(), width, height);
 
         int visibleTreeCount = getVisibleCoordinates(width, height, grid).size();
         System.out.println("There are $visibleTreeCount visible trees");
