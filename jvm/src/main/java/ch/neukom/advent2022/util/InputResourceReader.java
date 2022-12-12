@@ -10,15 +10,21 @@ public class InputResourceReader implements Closeable, AutoCloseable {
     public static final String DEFAULT_FILE = "input";
 
     private final Class<?> clazz;
+    private final String filename;
 
     private BufferedReader reader;
 
     public InputResourceReader(Class<?> clazz) {
+        this(clazz, DEFAULT_FILE);
+    }
+
+    public InputResourceReader(Class<?> clazz, String filename) {
         this.clazz = clazz;
+        this.filename = filename;
     }
 
     public Stream<String> readInput() {
-        return readInput(DEFAULT_FILE);
+        return readInput(filename);
     }
 
     public Stream<String> readInput(String filename) {
@@ -32,7 +38,7 @@ public class InputResourceReader implements Closeable, AutoCloseable {
     }
 
     public String getFirstLine() {
-        return getFirstLine(DEFAULT_FILE);
+        return getFirstLine(filename);
     }
 
     public String getFirstLine(String filename) {
@@ -40,7 +46,7 @@ public class InputResourceReader implements Closeable, AutoCloseable {
     }
 
     public long getLineCount() {
-        return getLineCount(DEFAULT_FILE);
+        return getLineCount(filename);
     }
 
     public long getLineCount(String filename) {
