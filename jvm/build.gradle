@@ -62,6 +62,7 @@ tasks.register('setup-java-puzzle') {
         def resourcesFolder = [sourceSets.main.resources.srcDirs[0].canonicalPath, packageName].join(File.separator)
         mkdir resourcesFolder
         new File([resourcesFolder, 'input'].join(File.separator)).write('')
+        new File([resourcesFolder, 'test'].join(File.separator)).write('')
 
         def puzzleTemplate = new File(['templates', 'Puzzle.java.template'].join(File.separator))
                 .newReader()
@@ -81,6 +82,7 @@ tasks.register('setup-kotlin-puzzle') {
         def resourcesFolder = [sourceSets.main.resources.srcDirs[0].canonicalPath, packageName].join(File.separator)
         mkdir resourcesFolder
         new File([resourcesFolder, 'input'].join(File.separator)).write('')
+        new File([resourcesFolder, 'test'].join(File.separator)).write('')
 
         def puzzleTemplate = new File(['templates', 'Puzzle.kt.template'].join(File.separator))
                 .newReader()
